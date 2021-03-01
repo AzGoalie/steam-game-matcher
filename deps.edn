@@ -1,0 +1,9 @@
+{:deps
+ {org.clojure/clojure {:mvn/version "1.10.2"}
+
+  clj-http/clj-http {:mvn/version "3.12.1"}
+  cheshire/cheshire {:mvn/version "5.10.0"}
+
+  ;; database
+  org.clojure/java.jdbc {:mvn/version "0.7.12"}
+  com.h2database/h2 {:mvn/version "1.4.200"}}}
