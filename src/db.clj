@@ -45,9 +45,9 @@
   (jdbc/query db-spec ["SELECT * FROM apps WHERE appid = ?" appid]
               {:result-set-fn first}))
 
-(defn get-apps
+(defn get-multiplayer-apps
   [appids]
-  (jdbc/query db-spec [(str "SELECT * FROM apps WHERE appid in (" (join ", " appids) ")")]))
+  (jdbc/query db-spec [(str "SELECT * FROM apps WHERE multiplayer=true AND appid in (" (join ", " appids) ")")]))
 
 (defn delete-app
   [appid]

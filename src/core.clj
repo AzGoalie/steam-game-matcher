@@ -6,12 +6,6 @@
 (def multiplayer-id 1)
 (def coop-id 9)
 
-(defn nil->false
-  [b]
-  (if (nil? b)
-    false
-    b))
-
 (defn get-app-categories
   [{:keys [appid]}]
   (-> appid
@@ -24,7 +18,7 @@
        get-app-categories
        (map :id)
        (some #(or (= multiplayer-id %) (= coop-id %)))
-       nil->false))
+       boolean))
 
 (defn update-database
   []
@@ -35,8 +29,7 @@
 (defn owned-multiplayer-apps
   [steamid]
   (->> (api/get-owned-apps steamid)
-       (db/get-apps)
-       (remove #(or (false? (:multiplayer %)) (nil? (:multiplayer %))))))
+       (db/get-multiplayer-apps)))
 
 (defn -main [& args]
   (if (< (count args) 2)
