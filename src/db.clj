@@ -1,7 +1,7 @@
 (ns db
   (:require [clojure.java.jdbc :as jdbc]
-            [steam-api :as api]
-            [clojure.string :refer [join]]))
+            [honeysql.core :as sql]
+            [steam-api :as api]))
 
 (def db-spec
   {:dbtype "h2"
@@ -26,7 +26,9 @@
 (defn get-all-unknown-multiplayer-apps
   []
   (jdbc/query db-spec
-              ["SELECT appid,name FROM apps WHERE multiplayer IS NULL"]))
+              (sql/format {:select [:appid :name]
+                           :from [:apps]
+                           :where [:= :multiplayer nil]})))
 
 (defn insert-app
   [{:keys [appid name multiplayer]}]
@@ -42,12 +44,18 @@
 
 (defn get-app
   [appid]
-  (jdbc/query db-spec ["SELECT * FROM apps WHERE appid = ?" appid]
+  (jdbc/query db-spec (sql/format {:select [:*]
+                                   :from [:apps]
+                                   :where [:= :appid appid]})
               {:result-set-fn first}))
 
 (defn get-multiplayer-apps
   [appids]
-  (jdbc/query db-spec [(str "SELECT * FROM apps WHERE multiplayer=true AND appid in (" (join ", " appids) ")")]))
+  (jdbc/query db-spec (sql/format {:select [:*]
+                                   :from [:apps]
+                                   :where [:and
+                                           [:= :multiplayer true]
+                                           [:in :appid appids]]})))
 
 (defn delete-app
   [appid]
