@@ -39,4 +39,5 @@
          (map set)
          (apply intersection)
          (map :name)
+         sort
          (run! println))))
