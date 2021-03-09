@@ -31,13 +31,16 @@
   (->> (api/get-owned-apps steamid)
        (db/get-multiplayer-apps)))
 
+(defn match-multiplayer-apps
+  [& steamids]
+  (->> steamids
+       (map owned-multiplayer-apps)
+       (map set)
+       (apply intersection)
+       (map :name)
+       sort))
+
 (defn -main [& args]
   (if (< (count args) 2)
     (println "Usage: clojure -m core steamid-1 steamid-2 ...")
-    (->> args
-         (map owned-multiplayer-apps)
-         (map set)
-         (apply intersection)
-         (map :name)
-         sort
-         (run! println))))
+    (run! println (match-multiplayer-apps args))))

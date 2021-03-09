@@ -1,8 +1,16 @@
-{:deps
+{:paths ["src"]
+
+ :deps
  {org.clojure/clojure {:mvn/version "1.10.2"}
 
   clj-http/clj-http {:mvn/version "3.12.1"}
   cheshire/cheshire {:mvn/version "5.10.0"}
+
+  ;; server
+  io.pedestal/pedestal.service {:mvn/version "0.5.7"}
+  io.pedestal/pedestal.route   {:mvn/version "0.5.7"}
+  io.pedestal/pedestal.jetty   {:mvn/version "0.5.7"}
+  org.slf4j/slf4j-simple       {:mvn/version "1.7.28"}
 
   ;; database
   honeysql/honeysql {:mvn/version "1.0.461"}
