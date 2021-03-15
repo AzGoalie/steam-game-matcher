@@ -21,7 +21,7 @@
        boolean))
 
 (defn update-database
-  []
+  [args]
   (->> (db/get-all-unknown-multiplayer-apps)
        (map #(assoc % :multiplayer (multiplayer? %)))
        (map db/update-app)))
